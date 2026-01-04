@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forge's Atrium - Fine Dining Experience</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <link rel="stylesheet" href="style.css">
+ </head>
+ <body class="h-full gradient-bg">
+  <div id="app-container" class="w-full h-full overflow-auto">
+   <div id="guest-view" class="w-full min-h-full">
+    <nav class="fixed top-6 left-1/2 transform -translate-x-1/2 z-40 animate-fade-in" style="backdrop-filter: blur(20px);">
+     <div class="flex items-center gap-1 px-6 py-3 rounded-full card-shadow" style="background: var(--bg-secondary); color: var(--text-primary);">
+      <a href="#home" class="nav-item px-5 py-2 font-light text-sm transition-all" style="color: var(--text-primary);">Home</a> 
+      <a href="#menu" class="nav-item px-5 py-2 font-light text-sm transition-all" style="color: var(--text-primary);">Menu</a> 
+      <a href="#specials" class="nav-item px-5 py-2 font-light text-sm transition-all" style="color: var(--text-primary);">Specials</a> 
+      <a href="#reserve" class="nav-item px-5 py-2 font-light text-sm transition-all" style="color: var(--text-primary);">Reserve</a> 
+      <a href="#contact" class="nav-item px-5 py-2 font-light text-sm transition-all" style="color: var(--text-primary);">Contact</a>
+     </div>
+    </nav>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+     <span id="theme-icon">🌙</span>
+    </button>
+    <section id="home" class="hero-section relative px-8 pt-32 pb-20 text-center">
+     <svg class="absolute inset-0 w-full h-full pointer-events-none z-0" style="overflow: visible;" preserveAspectRatio="none">
+      <defs>
+       <linearGradient id="lineGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#667eea;stop-opacity:0" />
+        <stop offset="50%" style="stop-color:#667eea;stop-opacity:0.6" />
+        <stop offset="100%" style="stop-color:#764ba2;stop-opacity:0" />
+       </linearGradient>
+       <linearGradient id="lineGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#764ba2;stop-opacity:0" />
+        <stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.4" />
+        <stop offset="100%" style="stop-color:#667eea;stop-opacity:0" />
+       </linearGradient>
+      </defs>
+      <line x1="0" y1="80" x2="100%" y2="80" stroke="url(#lineGrad1)" stroke-width="2" style="animation: slideLineRight 8s ease-in-out infinite;" />
+      <line x1="0" y1="35%" x2="100%" y2="35%" stroke="url(#lineGrad2)" stroke-width="1.5" style="animation: slideLineLeft 10s ease-in-out infinite 2s;" />
+      <line x1="0" y1="70%" x2="100%" y2="70%" stroke="url(#lineGrad1)" stroke-width="1" style="animation: slideLineRight 12s ease-in-out infinite 1s; opacity: 0.5;" />
+     </svg>
+     <div class="max-w-4xl mx-auto relative z-10">
+      <div class="animate-float mb-6 relative">
+       <svg class="w-20 h-20 mx-auto mb-4" style="filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.3));" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+         <linearGradient id="sparkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+         </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="45" fill="url(#sparkGradient)" opacity="0.2"/>
+        <path d="M50 20 L60 40 L85 45 L65 65 L70 90 L50 75 L30 90 L35 65 L15 45 L40 40 Z" fill="url(#sparkGradient)" />
+       </svg>
+       <h1 id="restaurant-name" class="text-7xl font-light mb-4" style="letter-spacing: 5px;">Forge's Atrium</h1>
+       <p id="tagline" class="text-2xl opacity-70 font-light mb-8">Where Elegance Meets Flavor</p>
+      </div>
+      <p id="welcome-message" class="text-2xl font-light opacity-80 mb-12">Experience the finest dining in Dhaka</p>
+      <div class="flex gap-4 justify-center flex-wrap"><a href="#menu" class="btn-primary px-10 py-4 rounded-full text-white font-light inline-block text-lg">Explore Menu</a> <a href="#reserve" class="px-10 py-4 rounded-full border-2 font-light inline-block transition-all hover:scale-105 text-lg">Book a Table</a>
+      </div>
+     </div>
+    </section>
+    <section id="menu" class="max-w-7xl mx-auto px-8 py-20 animate-fade-in" style="animation-delay: 0.3s;">
+     <div class="text-left mb-16 pl-8">
+      <h2 id="menu-title" class="text-6xl font-light mb-4" style="background: linear-gradient(135deg, #667eea, #764ba2, #667eea); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: textGradientShift 6s ease infinite;">Our Exquisite Menu</h2>
+      <div class="w-32 h-1 rounded-full" style="background: linear-gradient(90deg, currentColor, transparent); animation: expandingGradient 3s ease infinite;"></div>
+     </div>
+     <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+     </div>
+    </section>
+    <section id="specials" class="max-w-7xl mx-auto px-8 py-20 animate-fade-in" style="animation-delay: 0.4s; position: relative;">
+     <div class="text-right mb-16 pr-8">
+      <h2 id="specials-title" class="text-6xl font-light mb-4" style="background: linear-gradient(135deg, #764ba2, #667eea, #764ba2); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: textGradientShift 6s ease infinite; animation-delay: 1s;">Chef's Special Selection</h2>
+      <div class="w-32 h-1 ml-auto rounded-full" style="background: linear-gradient(90deg, transparent, currentColor); animation: expandingGradient 3s ease infinite; animation-delay: 0.5s;"></div>
+     </div>
+     <div id="specials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+     </div>
+    </section>
+    <section id="reserve" class="max-w-6xl mx-auto px-8 py-20 animate-fade-in" style="animation-delay: 0.5s;">
+     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      <div>
+       <h2 class="text-4xl font-light mb-8 text-center">Live Table Status</h2>
+       <div id="tables-grid" class="grid grid-cols-2 gap-8" style="perspective: 1000px;">
+       </div>
+      </div>
+      <div class="reservation-form card-shadow p-10" style="background: var(--bg-secondary); color: var(--text-primary);">
+       <h2 id="reservation-title" class="text-4xl font-light mb-8" style="color: var(--text-primary);">Reserve Your Table</h2>
+       <form id="reservation-form" onsubmit="submitReservation(event)" class="space-y-5">
+        <div><label class="block text-sm font-light mb-2 opacity-70">Full Name</label> <input type="text" id="res-name" class="w-full px-5 py-4 input-field border border-gray-200 focus:outline-none focus:border-gray-400" required>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+         <div><label class="block text-sm font-light mb-2 opacity-70">Email</label> <input type="email" id="res-email" class="w-full px-5 py-4 input-field border border-gray-200 focus:outline-none focus:border-gray-400" required>
+         </div>
+         <div><label class="block text-sm font-light mb-2 opacity-70">Phone</label> <input type="tel" id="res-phone" class="w-full px-5 py-4 input-field border border-gray-200 focus:outline-none focus:border-gray-400" required>
+         </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+         <div><label class="block text-sm font-light mb-2 opacity-70">Date</label> <input type="date" id="res-date" class="w-full px-5 py-4 input-field border border-gray-200 focus:outline-none focus:border-gray-400" required>
+         </div>
+         <div><label class="block text-sm font-light mb-2 opacity-70">Time</label> <input type="time" id="res-time" class="w-full px-5 py-4 input-field border border-gray-200 focus:outline-none focus:border-gray-400" required>
+         </div>
+        </div>
+        <div><label class="block text-sm font-light mb-2 opacity-70">Number of Guests</label> <select id="res-guests" class="w-full px-5 py-4 input-field border border-gray-200 focus:outline-none focus:border-gray-400"> <option value="1">1 Guest</option> <option value="2">2 Guests</option> <option value="3">3 Guests</option> <option value="4">4 Guests</option> <option value="5">5 Guests</option> <option value="6">6 Guests</option> <option value="7">7+ Guests</option> </select>
+        </div>
+        <div class="pt-4 border-t border-gray-200"><label class="block text-sm font-light mb-3 opacity-70">Pre-order Dishes (Optional)</label>
+         <div id="dish-selection" class="space-y-3 max-h-64 overflow-y-auto">
+         </div>
+        </div>
+        <div><label class="block text-sm font-light mb-2 opacity-70">Special Requests</label> <textarea id="res-requests" class="w-full px-5 py-4 input-field border border-gray-200 focus:outline-none focus:border-gray-400" rows="3" placeholder="Dietary restrictions, occasions, etc."></textarea>
+        </div><button type="submit" class="w-full py-4 rounded-full text-white btn-primary font-light text-lg">Confirm Reservation</button>
+       </form>
+       <div id="reservation-success" class="hidden mt-6 p-6 rounded-3xl text-center">
+        <p class="text-lg font-light">✅ Reservation confirmed! We'll contact you shortly.</p>
+       </div>
+      </div>
+     </div>
+    </section>
+    <section id="contact" class="max-w-6xl mx-auto px-8 py-20">
+     <h2 class="text-5xl font-light mb-12 text-center">Visit Us</h2>
+     <div class="flex flex-col md:flex-row gap-6 items-stretch">
+      <div class="organic-card p-10 card-shadow flex-1" style="background: var(--bg-secondary); transform: rotate(-1deg); color: var(--text-primary);">
+       <div class="text-5xl mb-6">
+        📞
+       </div>
+       <h3 class="text-2xl font-light mb-3" style="color: var(--text-primary);">Phone</h3>
+       <p id="contact-phone" class="opacity-70 text-lg" style="color: var(--text-secondary);">+1 69696969</p>
+      </div>
+      <div class="organic-card p-10 card-shadow flex-1" style="background: var(--bg-secondary); transform: rotate(1deg); color: var(--text-primary);">
+       <div class="text-5xl mb-6">
+        ✉️
+       </div>
+       <h3 class="text-2xl font-light mb-3" style="color: var(--text-primary);">Email</h3>
+       <p id="contact-email" class="opacity-70 text-lg" style="color: var(--text-secondary);">glitchforge97</p>
+      </div>
+      <div class="organic-card p-10 card-shadow flex-1" style="background: var(--bg-secondary); transform: rotate(-0.5deg); color: var(--text-primary);">
+       <div class="text-5xl mb-6">
+        📍
+       </div>
+       <h3 class="text-2xl font-light mb-3" style="color: var(--text-primary);">Location</h3>
+       <p id="contact-address" class="opacity-70 text-lg" style="color: var(--text-secondary);">Gulshan Avenue, Dhaka, Bangladesh</p>
+      </div>
+     </div>
+    </section><!-- Footer -->
+    <footer class="text-center py-12 px-8 opacity-60">
+     <p class="font-light mb-2">© 2025 Yara's Atrium. All rights reserved.</p>
+     <p class="font-light text-sm">Powered by <span class="font-medium">GlitchForge</span></p>
+    </footer>
+    <div id="login-trigger" class="fixed bottom-8 right-8 z-50"><button onclick="toggleAuthPanel()" class="w-16 h-16 rounded-full card-shadow flex items-center justify-center btn-primary animate-float" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+      <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+      </svg></button>
+    </div>
+    <div id="auth-panel" class="fixed top-0 right-0 w-full md:w-96 h-full login-panel p-8 transform translate-x-full z-50" style="background: var(--bg-secondary); color: var(--text-primary);"><button onclick="toggleAuthPanel()" class="absolute top-6 right-6 text-3xl opacity-50 hover:opacity-100 transition-opacity" style="color: var(--text-primary);">×</button>
+     <h3 class="text-3xl font-light mb-8" id="auth-title">Welcome</h3>
+     <div class="mb-8">
+      <div class="flex gap-2 mb-6"><button onclick="switchUserType('guest')" id="guest-type-tab" class="auth-tab flex-1 py-3 px-4 rounded-full font-light transition-all">Guest</button> <button onclick="switchUserType('staff')" id="staff-type-tab" class="auth-tab flex-1 py-3 px-4 rounded-full font-light transition-all">Staff</button>
+      </div>
+      <div class="flex gap-2 mb-6"><button onclick="switchAuthMode('signin')" id="signin-mode-tab" class="auth-tab flex-1 py-3 px-4 rounded-full font-light transition-all">Sign In</button> <button onclick="switchAuthMode('signup')" id="signup-mode-tab" class="auth-tab flex-1 py-3 px-4 rounded-full font-light transition-all">Create Account</button>
+      </div>
+      <form onsubmit="handleAuth(event)" class="space-y-4">
+       <div id="name-field" class="hidden"><label class="block text-sm font-light mb-2 opacity-70">Full Name</label> <input type="text" id="auth-name" class="w-full px-4 py-3 rounded-2xl border border-gray-200 input-field focus:outline-none focus:border-gray-400" placeholder="Enter your name">
+       </div>
+       <div><label class="block text-sm font-light mb-2 opacity-70">Email</label> <input type="email" id="auth-email" class="w-full px-4 py-3 rounded-2xl border border-gray-200 input-field focus:outline-none focus:border-gray-400" placeholder="Enter your email" required>
+       </div>
+       <div><label class="block text-sm font-light mb-2 opacity-70">Password</label> <input type="password" id="auth-password" class="w-full px-4 py-3 rounded-2xl border border-gray-200 input-field focus:outline-none focus:border-gray-400" placeholder="Enter password" required>
+       </div><button type="submit" id="auth-submit-btn" class="w-full py-4 rounded-full text-white btn-primary font-light text-lg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"> Sign In </button>
+      </form>
+      <div id="auth-error" class="mt-4 text-sm text-red-500 hidden"></div>
+      <div id="user-info" class="hidden mt-6 p-4 rounded-2xl" style="background: rgba(102, 126, 234, 0.1);">
+       <p class="text-sm font-light mb-2">Logged in as:</p>
+       <p id="user-email-display" class="font-medium mb-3"></p><button onclick="handleSignOut()" class="w-full py-2 rounded-full border border-gray-300 hover:border-gray-400 transition-all font-light">Sign Out</button>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div id="staff-dashboard" class="w-full min-h-full p-8 hidden">
+    <header class="flex justify-between items-center mb-8">
+     <div>
+      <h1 class="text-4xl font-light mb-1">Management Dashboard</h1>
+      <p class="text-sm opacity-60 font-light">Staff Portal</p>
+     </div><button onclick="handleSignOut()" class="px-6 py-3 rounded-full border border-gray-300 hover:border-gray-400 transition-all font-light hover:scale-105">Sign Out</button>
+    </header>
+    <div class="flex gap-3 mb-8 overflow-x-auto pb-2"><button onclick="switchSection('reservations')" class="dashboard-tab px-6 py-3 rounded-full font-light whitespace-nowrap transition-all" data-section="reservations">Reservations</button> <button onclick="switchSection('orders')" class="dashboard-tab px-6 py-3 rounded-full font-light whitespace-nowrap transition-all" data-section="orders">Orders</button> <button onclick="switchSection('menu')" class="dashboard-tab px-6 py-3 rounded-full font-light whitespace-nowrap transition-all" data-section="menu">Menu</button> <button onclick="switchSection('inventory')" class="dashboard-tab px-6 py-3 rounded-full font-light whitespace-nowrap transition-all" data-section="inventory">Inventory</button> <button onclick="switchSection('staff')" class="dashboard-tab px-6 py-3 rounded-full font-light whitespace-nowrap transition-all" data-section="staff">Staff</button> <button onclick="switchSection('analytics')" class="dashboard-tab px-6 py-3 rounded-full font-light whitespace-nowrap transition-all" data-section="analytics">Analytics</button>
+    </div>
+    <div id="reservations-section" class="dashboard-section">
+     <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-light">Reservations</h2>
+     </div>
+     <div id="reservations-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+     </div>
+    </div>
+    <div id="orders-section" class="dashboard-section">
+     <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-light">Active Orders</h2><button onclick="showAddOrderForm()" class="px-6 py-3 rounded-full text-white btn-primary font-light" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">New Order</button>
+     </div>
+     <div id="orders-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+     </div>
+    </div>
+    <div id="menu-section" class="dashboard-section hidden">
+     <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-light">Menu Management</h2><button onclick="showAddMenuItemForm()" class="px-6 py-3 rounded-full text-white btn-primary font-light" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">Add Item</button>
+     </div>
+     <div id="menu-management-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+     </div>
+    </div>
+    <div id="inventory-section" class="dashboard-section hidden">
+     <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-light">Inventory Control</h2><button onclick="showAddInventoryForm()" class="px-6 py-3 rounded-full text-white btn-primary font-light" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">Add Item</button>
+     </div>
+     <div id="inventory-list" class="space-y-4">
+     </div>
+    </div>
+    <div id="staff-section" class="dashboard-section hidden">
+     <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-light">Staff Management</h2><button onclick="showAddStaffForm()" class="px-6 py-3 rounded-full text-white btn-primary font-light" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">Add Staff</button>
+     </div>
+     <div id="staff-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+     </div>
+    </div>
+    <div id="analytics-section" class="dashboard-section hidden">
+     <h2 class="text-2xl font-light mb-6">Analytics Overview</h2>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="p-6 rounded-3xl card-shadow" style="background: white;">
+       <p class="text-sm font-light opacity-60 mb-2">Total Orders Today</p>
+       <p id="total-orders" class="text-4xl font-light">0</p>
+      </div>
+      <div class="p-6 rounded-3xl card-shadow" style="background: white;">
+       <p class="text-sm font-light opacity-60 mb-2">Revenue Today</p>
+       <p id="total-revenue" class="text-4xl font-light">৳0</p>
+      </div>
+      <div class="p-6 rounded-3xl card-shadow" style="background: white;">
+       <p class="text-sm font-light opacity-60 mb-2">Active Staff</p>
+       <p id="active-staff" class="text-4xl font-light">0</p>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4" onclick="closeModal(event)">
+    <div class="modal-content-wrapper w-full max-w-lg rounded-3xl p-8 max-h-[90%] overflow-y-auto card-shadow" style="background: white;" onclick="event.stopPropagation()">
+     <div id="modal-content"></div>
+    </div>
+   </div>
+  </div>
+  <script src="script b.js"></script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b83e65a50759325',t:'MTc2NzQ1ODAyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
